@@ -21,7 +21,7 @@ jobs:
           command: |
             make lint
             
-   build-test-push:
+  build-test-push:
     machine: true
     working_directory: ~/app
     steps:
@@ -53,5 +53,5 @@ workflows:
       jobs:
         - lint
         - build-test-push:
-          requires:
-            - lint
+            requires:
+              - lint
