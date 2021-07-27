@@ -13,6 +13,10 @@ jobs:
     steps:
       - checkout
       - run:
+          name: install dependencies
+          command: |            
+            make install
+      - run:
           name: run lint
           command: |
             make lint
