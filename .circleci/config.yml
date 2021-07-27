@@ -20,9 +20,38 @@ jobs:
           name: run lint
           command: |
             make lint
+            
+   build-test-push:
+    machine: true
+    working_directory: ~/app
+    steps:
+      - checkout
+      - run:
+          name: Build, test and push docker image
+          command: |
+            docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PWD}
+            docker build -t leenabhavnani/my-node-app:1.0 .
+            docker run -d --rm --name nodeapp -p 8080:8080 leenabhavnani/my-node-app:1.0
+            sleep 5
+            docker container ls
+            export url="http://localhost:8080"
+            export response=$(curl -s $url)
+            echo "This is response $response"
+            if [[ $response == *"NodeJS app"* ]]; then
+              echo "1"
+              docker stop nodeapp
+            else
+              echo "2"
+              docker stop nodeapp
+              exit 1
+            fi
+            
           
 
 workflows:
     udacity:
       jobs:
         - lint
+        - build-test-push:
+          requires:
+            - lint
