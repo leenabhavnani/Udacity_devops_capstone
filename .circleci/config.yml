@@ -102,7 +102,7 @@ workflows:
         - test-cluster:
             cluster-name: my-first-cluster
             requires:
-              - aws-eks/create-cluster
+              - create-cluster
         - aws-eks/delete-cluster:
             cluster-name: my-first-cluster
             requires:
