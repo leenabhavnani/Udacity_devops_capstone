@@ -22,7 +22,7 @@ jobs:
           command: |
             make lint
             
-  build-test-push:
+  config-image:
     machine: true
     working_directory: ~/app
     steps:
@@ -70,17 +70,17 @@ workflows:
     udacity:
       jobs:
         - lint
-        - build-test-push:
+        - config-image:
             requires:
               - lint
         - aws-eks/create-cluster:
             cluster-name: my-udacity-cluster
             requires:
-              - build-test-push
+              - config-image
         - test-cluster:
             cluster-name: my-udacity-cluster
             requires:
-              - create-cluster
+              - aws-eks/create-cluster
         - aws-eks/delete-cluster:
             cluster-name: my-udacity-cluster
             requires:
