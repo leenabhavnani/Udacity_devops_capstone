@@ -10,3 +10,10 @@ Building pipelines
 Working with Ansible and CloudFormation to deploy clusters
 Building Kubernetes clusters
 Building Docker containers in pipelines
+
+
+
+
+References
+https://circleci.com/developer/orbs/orb/circleci/kubernetes
+https://circleci.com/developer/orbs/orb/circleci/aws-eks
