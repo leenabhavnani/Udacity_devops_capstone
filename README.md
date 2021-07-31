@@ -60,6 +60,7 @@ Building Docker containers in pipelines
 **https://github.com/leenabhavnani/Udacity_devops_capstone/blob/main/screenshots/Cluster_Created.jpg**
 **https://github.com/leenabhavnani/Udacity_devops_capstone/blob/main/screenshots/Create_deployment.jpg**
 **https://github.com/leenabhavnani/Udacity_devops_capstone/blob/main/screenshots/Blue_Deployment.jpg**
+**https://github.com/leenabhavnani/Udacity_devops_capstone/blob/main/screenshots/Deployment_Rollout.jpg**
 **https://github.com/leenabhavnani/Udacity_devops_capstone/blob/main/screenshots/Green_Deployment.jpg**
 
 
