@@ -126,23 +126,23 @@ workflows:
             requires:
               - smoke_test
         - aws-eks/create-cluster:
-            cluster-name: my-udacity-cluster
+            cluster-name: udacity-capstone
             requires:
               - config-image
         - test-cluster:
-            cluster-name: my-udacity-cluster
+            cluster-name: udacity-capstone
             requires:
               - aws-eks/create-cluster
         - create-deployment:
-            cluster-name:  my-udacity-cluster
+            cluster-name:  udacity-capstone
             requires:
               - test-cluster
         - test-deployment:
-            cluster-name:  my-udacity-cluster
+            cluster-name:  udacity-capstone
             requires:
               - create-deployment              
         - aws-eks/update-container-image:
-            cluster-name: my-udacity-cluster
+            cluster-name: udacity-capstone
             container-image-updates: 'my-capstone-deployment=leenabhavnani/my-node-app:2.0'
             get-rollout-status: true
             record: true
@@ -150,10 +150,10 @@ workflows:
               - create-deployment
             resource-name:  deployment/aws-capstone            
         - test-deployment:
-            cluster-name:  my-udacity-cluster
+            cluster-name:  udacity-capstone
             requires:
               - aws-eks/update-container-image
        # - aws-eks/delete-cluster:
-       #     cluster-name: my-udacity-cluster
+       #     cluster-name: udacity-capstone
         #    requires:
          #     - test-cluster
