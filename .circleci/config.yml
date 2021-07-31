@@ -148,7 +148,7 @@ workflows:
             record: true
            # requires:
              # - create-deployment
-            resource-name:  udacity-capstone            
+            resource-name:  deployment/my-capstone-deployment            
         - test-deployment:
             cluster-name:  udacity-capstone
             requires:
