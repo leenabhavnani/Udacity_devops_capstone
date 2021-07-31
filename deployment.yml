@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-capstone-deployment
+  labels:
+    app: my-capstone-deployment
+  namespace: default
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-capstone-deployment
+  strategy:
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 50%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: my-capstone-deployment
+    spec:
+      containers:
+        - image: leenabhavnani/my-node-app:1.0
+          imagePullPolicy: Always
+          name: my-capstone-deployment
+          ports:
+            - containerPort: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-capstone-deployment
+  labels:
+    app: my-capstone-deployment
+spec:
+  type: LoadBalancer
+  selector:
+    app: my-capstone-deployment
+  ports:
+    - port: 8080
+      targetPort: 8080
+      protocol: TCP

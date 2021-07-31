@@ -52,11 +52,9 @@ jobs:
             export url="http://localhost:8080"
             export response=$(curl -s $url)
             echo "This is response $response"
-            if [[ $response == *"NodeJS app"* ]]; then
-              
+            if [[ $response == *"NodeJS app"* ]]; then              
               docker stop nodeapp
-            else
-              
+            else              
               docker stop nodeapp
               exit 1
             fi
@@ -79,6 +77,43 @@ jobs:
           name: Test cluster
             
           
+  create-deployment:
+    executor: aws-eks/python3
+    parameters:
+      cluster-name:
+        description: |
+          Name of the EKS cluster
+        type: string
+
+    steps:
+      - checkout
+      - kubernetes/install
+      - aws-eks/update-kubeconfig-with-authenticator:
+          cluster-name: << parameters.cluster-name >>
+          install-kubectl: true
+      - kubernetes/create-or-update-resource:
+          get-rollout-status: true
+          resource-file-path: deployment.yml
+          resource-name: deployment/my-capstone-deployment
+          
+  test-deployment:
+    executor: aws-eks/python3
+    parameters:
+      cluster-name:
+        description: |
+          Name of the EKS cluster
+        type: string
+    steps:
+      - kubernetes/install
+      - aws-eks/update-kubeconfig-with-authenticator:
+          cluster-name: << parameters.cluster-name >>
+      - run:
+          command: |
+            kubectl get svc
+            kubectl get nodes
+            kubectl get deployment
+          name: Test cluster
+
 
 workflows:
     udacity:
@@ -90,14 +125,22 @@ workflows:
         - config-image:
             requires:
               - smoke_test
-       # - aws-eks/create-cluster:
-        #    cluster-name: my-udacity-cluster
-        #    requires:
-         #     - config-image
-        #- test-cluster:
-         #   cluster-name: my-udacity-cluster
-          #  requires:
-           #   - aws-eks/create-cluster
+        - aws-eks/create-cluster:
+            cluster-name: my-udacity-cluster
+            requires:
+              - config-image
+        - test-cluster:
+            cluster-name: my-udacity-cluster
+            requires:
+              - aws-eks/create-cluster
+        - create-deployment:
+            cluster-name:  my-udacity-cluster
+            requires:
+              - test-cluster
+        - test-deployment:
+            cluster-name:  my-udacity-cluster
+            requires:
+              - create-deployment
        # - aws-eks/delete-cluster:
        #     cluster-name: my-udacity-cluster
         #    requires:
