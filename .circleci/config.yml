@@ -125,18 +125,18 @@ workflows:
         - config-image:
             requires:
               - smoke_test
-        - aws-eks/create-cluster:
-            cluster-name: udacity-capstone
-            requires:
-              - config-image
-        - test-cluster:
-            cluster-name: udacity-capstone
-            requires:
-              - aws-eks/create-cluster
-        - create-deployment:
-            cluster-name:  udacity-capstone
-            requires:
-              - test-cluster
+    #    - aws-eks/create-cluster:
+     #       cluster-name: udacity-capstone
+     #       requires:
+    #          - config-image
+    #    - test-cluster:
+    #        cluster-name: udacity-capstone
+     #       requires:
+     #         - aws-eks/create-cluster
+     #   - create-deployment:
+      #      cluster-name:  udacity-capstone
+     #       requires:
+      #        - test-cluster
         - test-deployment:
             cluster-name:  udacity-capstone
             requires:
@@ -148,7 +148,7 @@ workflows:
             record: true
             requires:
               - create-deployment
-            resource-name:  deployment/aws-capstone            
+            resource-name:  udacity-capstone            
         - test-deployment:
             cluster-name:  udacity-capstone
             requires:
