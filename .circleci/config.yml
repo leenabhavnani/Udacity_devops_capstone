@@ -22,6 +22,20 @@ jobs:
           command: |
             make lint
             
+  smoke_test:
+    docker : 
+      - image :  alpine:latest
+    steps:
+      - run:
+          name: Smoke Tests
+          command: |
+            if curl -s --head "http://localhost:8080" 
+                then
+            echo "It worked!"
+            else
+              echo "It failed"
+            fi
+            
   config-image:
     machine: true
     working_directory: ~/app
@@ -33,7 +47,7 @@ jobs:
             docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PWD}
             docker build -t leenabhavnani/my-node-app:1.0 .
             docker run -d --rm --name nodeapp -p 8080:8080 leenabhavnani/my-node-app:1.0
-            sleep 5
+            sleep 10
             docker container ls
             export url="http://localhost:8080"
             export response=$(curl -s $url)
@@ -70,18 +84,21 @@ workflows:
     udacity:
       jobs:
         - lint
-        - config-image:
+        - smoke_test
             requires:
               - lint
-        - aws-eks/create-cluster:
-            cluster-name: my-udacity-cluster
+        - config-image:
             requires:
-              - config-image
-        - test-cluster:
-            cluster-name: my-udacity-cluster
-            requires:
-              - aws-eks/create-cluster
-        - aws-eks/delete-cluster:
-            cluster-name: my-udacity-cluster
-            requires:
-              - test-cluster
+              - smoke_test
+       # - aws-eks/create-cluster:
+        #    cluster-name: my-udacity-cluster
+        #    requires:
+         #     - config-image
+        #- test-cluster:
+         #   cluster-name: my-udacity-cluster
+          #  requires:
+           #   - aws-eks/create-cluster
+       # - aws-eks/delete-cluster:
+       #     cluster-name: my-udacity-cluster
+        #    requires:
+         #     - test-cluster
