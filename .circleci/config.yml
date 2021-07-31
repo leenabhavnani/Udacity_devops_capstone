@@ -143,7 +143,7 @@ workflows:
            #   - create-deployment              
         - aws-eks/update-container-image:
             cluster-name: udacity-capstone
-            container-image-updates: 'my-capstone-deployment=leenabhavnani/my-node-app:2.0'
+            container-image-updates: 'my-capstone-deployment=leenabhavnani/my-node-app:1.0'
             get-rollout-status: true
             record: true
            # requires:
