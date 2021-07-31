@@ -2,8 +2,8 @@
 version: 2.1
 # Use a package of configuration called an orb.
 orbs:
-  aws-eks: circleci/aws-eks@1.0.0
-  kubernetes: circleci/kubernetes@0.11.1
+  aws-eks: circleci/aws-eks@1.1.0
+  kubernetes: circleci/kubernetes@0.12.0
   
 # Orchestrate or schedule a set of jobs
       
@@ -45,8 +45,8 @@ jobs:
           name: Build, test and push docker image
           command: |
             docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PWD}
-            docker build -t leenabhavnani/my-node-app:1.0 .
-            docker run -d --rm --name nodeapp -p 8080:8080 leenabhavnani/my-node-app:1.0
+            docker build -t leenabhavnani/my-node-app:2.0 .
+            docker run -d --rm --name nodeapp -p 8080:8080 leenabhavnani/my-node-app:2.0
             sleep 10
             docker container ls
             export url="http://localhost:8080"
@@ -58,7 +58,7 @@ jobs:
               docker stop nodeapp
               exit 1
             fi
-            docker push leenabhavnani/my-node-app:1.0
+            docker push leenabhavnani/my-node-app:2.0
             
   test-cluster:
     executor: aws-eks/python3
@@ -140,7 +140,19 @@ workflows:
         - test-deployment:
             cluster-name:  my-udacity-cluster
             requires:
+              - create-deployment              
+        - aws-eks/update-container-image:
+            cluster-name: my-udacity-cluster
+            container-image-updates: 'my-capstone-deployment=leenabhavnani/my-node-app:2.0'
+            get-rollout-status: true
+            record: true
+            requires:
               - create-deployment
+            resource-name:  deployment/aws-capstone            
+        - test-deployment:
+            cluster-name:  my-udacity-cluster
+            requires:
+              - aws-eks/update-container-image
        # - aws-eks/delete-cluster:
        #     cluster-name: my-udacity-cluster
         #    requires:
