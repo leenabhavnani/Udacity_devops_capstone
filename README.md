@@ -24,7 +24,7 @@ Building Docker containers in pipelines
 ## Step 2: Use Jenkins or Circle CI, and implement blue/green or rolling deployment.
 * If you're using Jenkins, create your Jenkins master box and install the plugins you will need.
 * If you're using Circle CI, set up your circle CI account and connect your git repository.  
-  **Circle CI URL - https://app.circleci.com/pipelines/github/leenabhavnani/Udacity_devops_capstone?branch=main **
+  **Circle CI URL** - https://app.circleci.com/pipelines/github/leenabhavnani/Udacity_devops_capstone?branch=main 
 * Set up your environment to which you will deploy code.
    
 ## Step 3: Pick AWS Kubernetes as a Service, or build your own Kubernetes cluster.
@@ -41,7 +41,7 @@ Building Docker containers in pipelines
 * Construct your pipeline in your GitHub repository.  
 * Set up all the steps that your pipeline will include.
 * Configure a deployment pipeline.  
- **CircleCI Pipeline: https://github.com/leenabhavnani/Udacity_devops_capstone/tree/main/.circleci/config.yml **
+ **CircleCI Pipeline:** https://github.com/leenabhavnani/Udacity_devops_capstone/tree/main/.circleci/config.yml 
  
 * Include your Dockerfile/source code in the Git repository.  
 **https://github.com/leenabhavnani/Udacity_devops_capstone/DockerFile**
