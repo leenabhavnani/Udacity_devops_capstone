@@ -118,42 +118,42 @@ jobs:
 workflows:
     udacity:
       jobs:
-    #    - lint
-    #    - smoke_test:
-    #        requires:
-    #          - lint
-   #     - config-image:
-    #        requires:
-    #          - smoke_test
-    #    - aws-eks/create-cluster:
-     #       cluster-name: udacity-capstone
-     #       requires:
-    #          - config-image
-    #    - test-cluster:
-    #        cluster-name: udacity-capstone
-     #       requires:
-     #         - aws-eks/create-cluster
-     #   - create-deployment:
-      #      cluster-name:  udacity-capstone
-     #       requires:
-      #        - test-cluster
-     #   - test-deployment:
-     #       cluster-name:  udacity-capstone
-           # requires:
-           #   - create-deployment              
-    #    - aws-eks/update-container-image:
-    #        cluster-name: udacity-capstone
-     #       container-image-updates: 'my-capstone-deployment=leenabhavnani/my-node-app:1.0'
-     #       get-rollout-status: true
-     #       record: true
-           # requires:
-             # - create-deployment
-     #       resource-name:  deployment/my-capstone-deployment            
-    #    - test-deployment:
-      #      cluster-name:  udacity-capstone
-      #      requires:
-      #        - aws-eks/update-container-image
+        - lint
+        - smoke_test:
+            requires:
+              - lint
+        - config-image:
+            requires:
+              - smoke_test
+        - aws-eks/create-cluster:
+            cluster-name: udacity-capstone
+            requires:
+              - config-image
+        - test-cluster:
+            cluster-name: udacity-capstone
+            requires:
+              - aws-eks/create-cluster
+        - create-deployment:
+            cluster-name:  udacity-capstone
+            requires:
+              - test-cluster
+        - test-deployment:
+            cluster-name:  udacity-capstone
+            requires:
+              - create-deployment              
+        - aws-eks/update-container-image:
+            cluster-name: udacity-capstone
+            container-image-updates: 'my-capstone-deployment=leenabhavnani/my-node-app:2.0'
+            get-rollout-status: true
+            record: true
+            requires:
+             - test-deployment
+            resource-name:  deployment/my-capstone-deployment            
+        - test-deployment:
+            cluster-name:  udacity-capstone
+            requires:
+              - aws-eks/update-container-image
         - aws-eks/delete-cluster:
             cluster-name: udacity-capstone
-        #    requires:
-         #     - test-cluster
+            requires:
+              - test-deployment
