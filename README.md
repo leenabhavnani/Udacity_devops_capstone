@@ -63,4 +63,4 @@ Building Docker containers in pipelines
 **https://github.com/leenabhavnani/Udacity_devops_capstone/blob/main/screenshots/Deployment_Rollout.jpg**
 **https://github.com/leenabhavnani/Udacity_devops_capstone/blob/main/screenshots/Green_Deployment.jpg**
 
-
+### Docker Registry - https://hub.docker.com/repository/docker/leenabhavnani/my-node-app
