@@ -84,7 +84,7 @@ workflows:
     udacity:
       jobs:
         - lint
-        - smoke_test
+        - smoke_test:
             requires:
               - lint
         - config-image:
